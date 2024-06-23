@@ -10,7 +10,6 @@ from pandasai import SmartDataframe, Agent
 # Set the PandasAI API key
 os.environ["PANDASAI_API_KEY"] = "$2a$10$Z6PhinVf9Zs4fYfgNwYRt.X/9.EjvrFjCt0zzwZeI8zsWiqsX2Og6"
 
-# Function to load data from SQLite database
 def load_data_from_sqlite(db_path, table_name):
     conn = sqlite3.connect(db_path)
     query = f"SELECT * FROM {table_name}"
@@ -18,7 +17,6 @@ def load_data_from_sqlite(db_path, table_name):
     conn.close()
     return df
 
-# Function to ensure DataFrame column types are compatible with Arrow
 def fix_column_types(df):
     for col in df.columns:
         if df[col].dtype == 'object':
@@ -28,7 +26,6 @@ def fix_column_types(df):
                 pass
     return df
 
-# Function to generate a plot and return base64 encoded image
 def generate_plot(plot_data, plot_type='line', x_col=None, y_col=None):
     plt.figure(figsize=(10, 5))
     
@@ -52,16 +49,13 @@ def generate_plot(plot_data, plot_type='line', x_col=None, y_col=None):
     
     return img_base64
 
-# Main function to run the Streamlit web application
 def main():
     st.title("IRCC Data Analysis")
 
-    # Sidebar for SQLite database selection and CSV upload
     st.sidebar.title('Database and CSV Input')
     db_path = st.sidebar.text_input("Enter SQLite Database Path:", r'E:\SQLite Studio Databases\Db1.db')
     table_name = st.sidebar.text_input("Enter Table Name:")
 
-    # CSV file uploader
     uploaded_file = st.sidebar.file_uploader("Upload a CSV file", type=["csv"])
 
     if db_path and table_name:
@@ -88,7 +82,6 @@ def main():
         st.write("Please enter a valid SQLite database path or upload a CSV file.")
         return
 
-    # Initialize pandasai agent with data_information
     agent = Agent(data_information)
 
     query = st.text_input("Enter your question about the data: ")
@@ -99,7 +92,6 @@ def main():
                 response = agent.chat(query)
                 
                 if isinstance(response, pd.DataFrame):
-                    # Try to determine the type of plot and the columns involved
                     plot_type = 'line'  # Default plot type
                     x_col, y_col = response.columns[:2]
                     
