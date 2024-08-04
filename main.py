@@ -8,7 +8,7 @@ import base64
 from pandasai import SmartDataframe, Agent
 
 # Set the PandasAI API key
-os.environ["PANDASAI_API_KEY"] = "$2a$10$Z6PhinVf9Zs4fYfgNwYRt.X/9.EjvrFjCt0zzwZeI8zsWiqsX2Og6"
+os.environ["PANDASAI_API_KEY"] = ""
 
 # Function to load data from SQLite database
 def load_data_from_sqlite(db_path, table_name):
